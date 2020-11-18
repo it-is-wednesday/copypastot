@@ -1,0 +1,16 @@
+{:new-pasta "🌺🌼 פסטה חדשה 🌼🌺"
+ :author "המוח מאחורי"
+ :creation-date "תאריך בישול"
+ :peek "הצצה"
+ :view-pasta "תראו הכל"
+
+ :back "חזרה"
+
+ :submitted-by "בושל על ידי "
+ :submitted-at " ב"
+
+ ;; form
+ :author-form "מי את?"
+ :content "הפסטה"
+ :submit "יאללה"
+ :cancel "עזוב"}
