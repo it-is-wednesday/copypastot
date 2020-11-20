@@ -2,9 +2,10 @@
   (:require [coast]
             [components :refer [container container-index tc link-to table thead tbody td th tr
                                 button-to text-muted mr2 dl dd dt submit input label textarea
-                                button-link-to]]
+                                button-link-to submit-custom]]
             [clojure.edn :as edn]
-            [clojure.java.io :as cljio])
+            [clojure.java.io :as cljio]
+            [clojure.set])
   (:import [java.time Instant ZoneId]
            [java.time.format DateTimeFormatter FormatStyle]))
 
@@ -22,14 +23,46 @@
        (:submitted-at strings)
        (epoch-to-readable-date epoch-date)))
 
+(defn search-bar
+  ([] (search-bar ""))
+  ([current-query]
+   [:div {:class "pastot-search-container"}
+    (coast/form-for
+     ::search
+     {:method :get}
+     (input {:type "search" :name "query" :class "pastot-search-bar" :value current-query})
+     (submit-custom (:search strings) "pastot-search-submit"))]))
+
+(defn pastas-table [rows]
+  (table
+   (thead
+    (tr
+     (th (:author strings))
+     (th (:creation-date strings))
+     (th (:peek strings))))
+   (tbody
+    (for [row rows]
+      (tr
+       (td (:pasta/author row))
+       (td (-> row :pasta/created-at epoch-to-readable-date))
+       (td (if (< (-> row :pasta/content count) pasta-content-preview-len)
+             (:pasta/content row)
+             (str
+              (subs (:pasta/content row) 0 pasta-content-preview-len)
+              "...")))
+       (td
+        (-> row keys println)
+        (link-to (coast/url-for ::view row) (:view-pasta strings))))))))
+
 (defn index [request]
   (let [rows (coast/q '[:select *
                         :from pasta
-                        :order id
                         :limit 10
-                        :where [:approved 1]])]
+                        :where [:approved 1]
+                        :order created-at desc])]
     (container-index
      {:mw 8}
+     (search-bar)
      (when (not (empty? rows))
        (button-link-to (coast/url-for ::build) (:new-pasta strings)))
 
@@ -38,31 +71,12 @@
         (button-link-to (coast/url-for ::build) (:new-pasta strings))))
 
      (when (not (empty? rows))
-       (table
-        (thead
-         (tr
-          (th (:author strings))
-          (th (:creation-date strings))
-          (th (:peek strings))))
-        (tbody
-         (for [row rows]
-           (tr
-            (td (:pasta/author row))
-            (td (-> row :pasta/created-at epoch-to-readable-date))
-                            ;; (td (:pasta/content row))
-            (td (if (< (-> row :pasta/content count) pasta-content-preview-len)
-                  (:pasta/content row)
-                  (str
-                   (subs (:pasta/content row) 0 pasta-content-preview-len)
-                   "...")))
-            (td
-             (link-to (coast/url-for ::view row) (:view-pasta strings)))))))))))
+       (pastas-table rows)))))
 
 (defn view [request]
   (let [id (-> request :params :pasta-id)
         pasta (coast/fetch :pasta id)]
     (container {:mw 8}
-               (link-to (coast/url-for ::index) (:back strings))
                [:p {:class "i"} (make-pasta-heading
                                  (:pasta/author pasta)
                                  (:pasta/created-at pasta))]
@@ -102,3 +116,21 @@
     (if (nil? errors)
       (coast/redirect-to ::index)
       (build (merge request errors)))))
+
+(defn search [request]
+  (let [plain-query (-> request :params :query)
+        like-query (str "%" plain-query "%")
+        ;; sorry for using raw sql I just couldn't get the DSL to work with the ? thingy I swear
+        rows (coast/q ["SELECT * FROM pasta WHERE content LIKE ?" like-query])]
+    (container
+     {:mw 8}
+     (search-bar plain-query)
+     (pastas-table
+      ;; renaming because the raw sql query doesn't do it for us (unlike the DSL query)
+      (mapv #(clojure.set/rename-keys % {:author :pasta/author
+                                         :approved :pasta/approved
+                                         :id :pasta/id
+                                         :updated_at :pasta/updated-at
+                                         :created_at :pasta/created-at
+                                         :content :pasta/content})
+            rows)))))

@@ -7,4 +7,5 @@
    (coast/site
     (coast/with-layout components/layout
       [:get "/" :pasta/index]
+      [:get "/search" :pasta/search]
       [:resource :pasta]))))

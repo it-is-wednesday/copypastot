@@ -1,5 +1,8 @@
-html, body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+html,
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji",
+    "Segoe UI Symbol";
 }
 
 .pasta-content {
@@ -16,11 +19,25 @@ html, body {
 }
 
 .pastot-primary-color {
-  background-color: #EA6650;
+  background-color: #ea6650;
 }
 
 .pastot-index-container {
   display: flex;
   align-items: center;
   flex-direction: column;
+}
+
+.pastot-search-container {
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.pastot-search-submit {
+  height: 30px;
+}
+
+.pastot-search-bar {
+  height: 30px;
+  margin-left: 5px;
 }

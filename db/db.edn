@@ -1,5 +1,6 @@
 {:dev {:database "copypastot_dev.sqlite3"
-       :adapter "sqlite"}
+       :adapter "sqlite"
+       :debug true}
 
  :test {:database "copypastot_test.sqlite3"
         :adapter "sqlite"}
