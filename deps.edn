@@ -6,7 +6,15 @@
   org.xerial/sqlite-jdbc      {:mvn/version "3.25.2"}}
 
  :aliases
- {:test
+ {:eastwood
+  {:main-opts ["-m" "eastwood.lint" {:source-paths ["src"]}]
+   :extra-deps {jonase/eastwood {:mvn/version "0.3.11"}}}
+
+  :clj-kondo
+  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2020.11.07"}}
+   :main-opts ["-m" "clj-kondo.main" "--lint" "src"]}
+
+  :test
   {:extra-paths ["test"]
    :main-opts   ["-m" "cognitect.test-runner"]
    :extra-deps

@@ -5,7 +5,19 @@ clean:
 	rm -rf target/*
 
 uberjar:
-	clj -A\:uberjar
+	clj -M:uberjar
+
+lint: find-unused
+	clj -M:clj-kondo:eastwood
+
+find-unused:
+	#!/bin/bash
+	echo looking for unused symbols...
+	cd src
+	for f in $(egrep -o -R "defn?-? [^ ]*" * --include '*.clj' | cut -d \  -f 2 | sort | uniq); do
+		echo $f $(grep -R --include '*.clj' -- "$f" * | wc -l);
+	done | grep " 1$" | cut -d " " -f 1
+	echo
 
 assets:
 	clj -m coast.assets
