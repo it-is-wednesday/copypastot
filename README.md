@@ -28,7 +28,5 @@ Make sure you've
 then:
 
 ```bash
-just db-migrate
-just assets
-clj -m server
+just serve
 ```

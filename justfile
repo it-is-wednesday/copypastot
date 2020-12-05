@@ -28,7 +28,7 @@ assets:
 	cat /tmp/copypastot-css-bundle/{bootstrap.min.css,app.css} > resources/public/assets/bundle-78f63806f570aaf12622232b4d9db093.css
 	rm -r /tmp/copypastot-css-bundle
 
-server:
+serve: db-migrate assets
 	clj -m server
 
 db-migrate:
