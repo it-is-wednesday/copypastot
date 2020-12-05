@@ -1,9 +1,14 @@
 (ns components
-  (:require [coast]))
+  (:require [coast]
+            [clojure.edn :as edn]
+            [clojure.java.io :as cljio]))
+
+(def strings (-> "strings.edn" cljio/resource slurp edn/read-string))
 
 (defn layout [request body]
   [:html {:dir "rtl"}
    [:head
+    [:title (:title strings)]
     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
     (coast/css "bundle.css")
     (coast/js "bundle.js")]

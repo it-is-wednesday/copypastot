@@ -1,14 +1,11 @@
 (ns pasta
   (:require [coast]
-            [components :refer [link-to dd submit]]
-            [clojure.edn :as edn]
-            [clojure.java.io :as cljio]
+            [components :refer [link-to dd submit strings]]
             [clojure.set])
   (:import [java.time Instant ZoneId]
            [java.time.format DateTimeFormatter FormatStyle]))
 
 (def pasta-content-preview-len 55)
-(def strings (-> "strings.edn" cljio/resource slurp edn/read-string))
 
 (defn epoch-to-readable-date [epoch]
   (.. (Instant/ofEpochSecond epoch)
