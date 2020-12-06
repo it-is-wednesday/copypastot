@@ -23,7 +23,7 @@ assets:
 	clj -m coast.assets || true
 	cp resources/public/js/app.js resources/public/assets/bundle-d41d8cd98f00b204e9800998ecf8427e.js
 	mkdir /tmp/copypastot-css-bundle
-	purgecss --css resources/public/css/*.css --content src/*.clj --output /tmp/copypastot-css-bundle
+	purgecss --css resources/public/css/*.css --content src/*.clj resources/public/js/*.js --output /tmp/copypastot-css-bundle
 	# order is important here, since in app.css we override some bootstrap declarations
 	cat /tmp/copypastot-css-bundle/{bootstrap.min.css,app.css} > resources/public/assets/bundle-78f63806f570aaf12622232b4d9db093.css
 	rm -r /tmp/copypastot-css-bundle
