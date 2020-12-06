@@ -40,8 +40,8 @@ db-rollback:
 db-create:
 	clj -m coast.db create
 
-db-drop:
-	clj -m coast.db drop
+db-delete-duplicates:
+	sqlite3 *.sqlite3 "DELETE FROM pasta WHERE id IN (SELECT id FROM pasta GROUP BY substr(content, 0, 200) HAVING count(id) > 1)"
 
 # Local Variables:
 # mode: makefile
