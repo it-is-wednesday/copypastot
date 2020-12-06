@@ -141,7 +141,7 @@
   (let [plain-query (-> request :params :query)
         like-query (str "%" plain-query "%")
         ;; sorry for using raw sql I just couldn't get the DSL to work with the ? thingy I swear
-        rows (coast/q ["SELECT * FROM pasta WHERE content LIKE ?" like-query])]
+        rows (coast/q ["SELECT * FROM pasta WHERE content LIKE ? AND approved = 1" like-query])]
     [:div.flex-container
      [:h3.pastot-primary-color (:search-results strings)]
      (search-bar plain-query)
