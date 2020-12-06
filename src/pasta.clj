@@ -5,7 +5,7 @@
   (:import [java.time Instant ZoneId]
            [java.time.format DateTimeFormatter FormatStyle]))
 
-(def pasta-content-preview-len 55)
+(def pasta-content-preview-len 60)
 
 (defn epoch-to-readable-date [epoch]
   (.. (Instant/ofEpochSecond epoch)
@@ -63,7 +63,6 @@
 (defn index [request]
   (let [rows (coast/q '[:select *
                         :from pasta
-                        :limit 10
                         :where [:approved 1]
                         :order created-at desc])]
     [:div.flex-container
