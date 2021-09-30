@@ -57,7 +57,6 @@
                "..."))]
        ;; show more
        [:td
-        (-> row keys println)
         (link-to (coast/url-for ::view row) (:view-pasta strings))]])]])
 
 (defn index [request]

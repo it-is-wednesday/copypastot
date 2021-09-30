@@ -1,2 +1,2 @@
-{"bundle.css" ["bootstrap.min.css" "app.css"]
- "bundle.js" ["app.js"]}
+{"app.css" ["app.css"]
+ "app.js" ["app.js"]}
