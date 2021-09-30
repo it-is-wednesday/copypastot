@@ -11,6 +11,7 @@ lint:
 	clj -M:clj-kondo:eastwood
 
 assets:
+	mkdir -p resources/public/assets
 	cp resources/public/js/app.js resources/public/assets/app.js
 	cp resources/public/css/app.css resources/public/assets/app.css
 

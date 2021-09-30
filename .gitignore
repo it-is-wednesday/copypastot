@@ -15,3 +15,4 @@ pom.xml.asc
 .cpcache
 *.sqlite3
 .log
+resources/public/assets

@@ -13,10 +13,9 @@
     [:link {:href "https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
             :type "text/css"
             :rel "stylesheet"}]
-    (coast/css "app.css")
-    (coast/js "app.js")]
-   [:body
-    body]])
+    [:link {:href "/assets/app.css" :rel "stylesheet"}]
+    [:script {:src "/assets/app.js"}]]
+   [:body body]])
 
 (defn link-to [url & body]
   [:a {:href url}
