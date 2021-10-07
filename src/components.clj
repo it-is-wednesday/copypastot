@@ -10,7 +10,7 @@
    [:head
     [:title (:title strings)]
     [:meta {:name "viewport" :content "width=device-width, initial-scale=1"}]
-    [:link {:href "https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+    [:link {:href "https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
             :type "text/css"
             :rel "stylesheet"}]
     [:link {:href "/assets/app.css" :rel "stylesheet"}]

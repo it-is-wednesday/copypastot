@@ -10,8 +10,7 @@
 ```bash
 git clone git@github.com:your-user-name/copypastot.git
 cd copypastot
-just db-create
-just db-migrate
+just db-create db-migrate assets serve
 ```
 
 ## Dev
