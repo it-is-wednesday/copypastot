@@ -16,3 +16,4 @@ pom.xml.asc
 *.sqlite3
 .log
 resources/public/assets
+.eastwood
