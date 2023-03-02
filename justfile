@@ -17,16 +17,16 @@ assets:
 	cp resources/public/css/app.css resources/public/assets/app.css
 
 serve: db-migrate assets
-	clj -m server
+	clj -M -m server
 
 db-migrate:
-	clj -m coast.migrations migrate
+	clj -M -m coast.migrations migrate
 
 db-rollback:
-	clj -m coast.migrations rollback
+	clj -M -m coast.migrations rollback
 
 db-create:
-	clj -m coast.db create
+	clj -M -m coast.db create
 
 db-delete-duplicates:
 	sqlite3 *.sqlite3 "DELETE FROM pasta WHERE id IN (SELECT id FROM pasta GROUP BY substr(content, 0, 200) HAVING count(id) > 1)"
