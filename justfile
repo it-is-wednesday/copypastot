@@ -4,6 +4,9 @@ test:
 clean:
 	rm -rf target/*
 
+build-image: clean uberjar assets
+	podman build . -t copypastot
+
 uberjar:
 	mkdir -p target
 	clj -M:uberjar

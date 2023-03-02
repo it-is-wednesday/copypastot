@@ -5,8 +5,8 @@
 
 (def app (coast/app {:routes routes/routes}))
 
-(defn -main [& [port]]
-  (coast/server app {:port port :ip "localhost"}))
+(defn -main [& [host port]]
+  (coast/server app {:ip (or host "localhost") :port port}))
 
 (comment
   (-main))
