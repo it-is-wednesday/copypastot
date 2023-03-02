@@ -5,6 +5,7 @@ clean:
 	rm -rf target/*
 
 uberjar:
+	mkdir -p target
 	clj -M:uberjar
 
 lint:
