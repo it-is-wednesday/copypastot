@@ -21,3 +21,21 @@ spec:
           ports:
             - containerPort: 5432
               name: "db-port"
+          env:
+            - name: POSTGRES_PASSWORD
+              value: "{{ .Values.db.password }}"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: "db-deployment"
+  labels:
+    app: "db"
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: "db-port"
+  selector:
+    app: "db"

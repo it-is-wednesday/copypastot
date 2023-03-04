@@ -6,13 +6,8 @@
         :adapter "sqlite"}
 
  :prod {:database #env :db-name
-        :adapter "sqlite"}}
-
- ; or you can use postgres
-
- ; :prod {:database #env :db-name
- ;        :adapter "postgres"
- ;        :username #env :db-username
- ;        :password #env :db-password
- ;        :host #env :db-host
- ;        :port #env :db-port}}
+        :adapter "postgres"
+        :username #env :db-username
+        :password #env :db-password
+        :host #env :db-host
+        :port #env :db-port}}

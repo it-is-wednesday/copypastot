@@ -21,6 +21,17 @@ spec:
           ports:
             - containerPort: 1337
               name: "{{ .Chart.Name  }}-port"
+          env:
+            - name: DB_NAME
+              value: "{{ .Values.db.name }}"
+            - name: DB_PASSWORD
+              value: "{{ .Values.db.password }}"
+            - name: DB_USERNAME
+              value: "{{ .Values.db.username }}"
+            - name: DB_HOST
+              value: "{{ .Values.db.host }}"
+            - name: DB_PORT
+              value: "{{ .Values.db.port }}"
 
 ---
 kind: Service
