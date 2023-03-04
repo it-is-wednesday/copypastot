@@ -1,0 +1,23 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "db-deployment"
+  labels:
+    app: "db"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "db"
+  template:
+    metadata:
+      labels:
+        app: "db"
+    spec:
+      containers:
+        - name: "db"
+          image: "docker.io/library/postgres:latest"
+          ports:
+            - containerPort: 5432
+              name: "db-port"

@@ -1,0 +1,38 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Chart.Name }}-deployment"
+  labels:
+    app: "{{ .Chart.Name  }}"
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: "{{ .Chart.Name  }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Chart.Name  }}"
+    spec:
+      containers:
+        - name: "{{ .Chart.Name  }}"
+          image: "t5kbv0soswgvrkgpxlezak/{{ .Chart.Name  }}:latest"
+          ports:
+            - containerPort: 1337
+              name: "{{ .Chart.Name  }}-port"
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: "{{ .Chart.Name }}-deployment"
+  labels:
+    app: "{{ .Chart.Name }}"
+spec:
+  type: NodePort
+  ports:
+    - port: 8080
+      targetPort: "{{ .Chart.Name }}-port"
+  selector:
+    app: "{{ .Chart.Name }}"
