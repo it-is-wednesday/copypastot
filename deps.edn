@@ -3,18 +3,10 @@
  :deps
  {org.clojure/clojure         {:mvn/version "1.10.0"}
   coast-framework/coast.theta {:mvn/version "1.6.0"}
-  org.xerial/sqlite-jdbc      {:mvn/version "3.25.2"}}
+  org.xerial/sqlite-jdbc      {:mvn/version "3.39.3.0"}}
 
  :aliases
- {:eastwood
-  {:main-opts ["-m" "eastwood.lint" {:source-paths ["src"]}]
-   :extra-deps {jonase/eastwood {:mvn/version "0.3.11"}}}
-
-  :clj-kondo
-  {:extra-deps {clj-kondo/clj-kondo {:mvn/version "2020.11.07"}}
-   :main-opts ["-m" "clj-kondo.main" "--lint" "src"]}
-
-  :test
+ {:test
   {:extra-paths ["test"]
    :main-opts   ["-m" "cognitect.test-runner"]
    :extra-deps
@@ -23,12 +15,12 @@
 
   :uberjar
   {:main-opts  ["-m" "mach.pack.alpha.capsule"
-                "target/copypastot.jar"]
+                "target/{{name}}.jar"]
    :extra-deps {pack/pack.alpha {:git/url "https://github.com/juxt/pack.alpha.git"
                                  :sha     "2769a6224bfb938e777906ea311b3daf7d2220f5"}}}
 
   :repl {:extra-deps {nrepl/nrepl {:mvn/version "0.6.0"}}}
 
-  ;; these two commands are for Dockerfile convenience
+  ;; these two are for Dockerfile convenience
   :migrate {:main-opts ["-m", "coast.migrations", "migrate"]}
   :serve-prod {:main-opts ["-m", "server", "0.0.0.0", "1337"]}}}
