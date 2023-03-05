@@ -1,15 +1,23 @@
-FROM clojure:tools-deps
+# so I don't remember why, but the deps.edn clojure image didn't cut it so
+# I'm here downloading clj manually like an ape
+
+FROM docker.io/library/eclipse-temurin:11-jdk-jammy
+
+# installing clj (deps.edn)
+RUN apt-get update && apt-get install -y rlwrap make
+RUN curl -O https://download.clojure.org/install/posix-install-1.11.1.1237.sh
+RUN chmod +x posix-install-1.11.1.1237.sh
+RUN ./posix-install-1.11.1.1237.sh
 
 # just dependencies
-COPY deps.edn /app/deps.edn
+COPY deps.edn /app/
 WORKDIR /app
-RUN mkdir -p target
 RUN clj -P
 
 # the actual app
+COPY Makefile resources src db /app/
+mkdir -p resources/public/assets
 COPY resources/public/js/app.js resources/public/assets/app.js
 COPY resources/public/css/app.css resources/public/assets/app.css
-COPY src db /app/
-# CMD ["clj", "-M:migrate:serve"]
-CMD echo hi
+CMD ["make", "db/migrate", "server"]
 EXPOSE 1337

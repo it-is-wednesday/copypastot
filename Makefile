@@ -1,3 +1,5 @@
+.PHONY: test
+
 test:
 	COAST_ENV=test clj -A\:test
 
@@ -6,27 +8,31 @@ clean:
 
 uberjar:
 	mkdir -p target
-	clj -M:uberjar
+	clj -A\:uberjar
 
 lint:
 	clj -M:clj-kondo:eastwood
 
+repl:
+	clj -R:repl bin/repl.clj
+
 assets:
-	mkdir -p resources/public/assets
-	cp resources/public/js/app.js resources/public/assets/app.js
-	cp resources/public/css/app.css resources/public/assets/app.css
+	clj -M -m coast.assets
 
-serve: db-migrate assets
-	clj -M -m server
+server:
+	clj -M -m server 0.0.0.0 1337
 
-db-migrate:
+db/migrate:
 	clj -M -m coast.migrations migrate
 
-db-rollback:
+db/rollback:
 	clj -M -m coast.migrations rollback
 
-db-create:
+db/create:
 	clj -M -m coast.db create
 
-db-delete-duplicates:
+db/drop:
+	clj -M -m coast.db drop
+
+db/delete-duplicates:
 	sqlite3 *.sqlite3 "DELETE FROM pasta WHERE id IN (SELECT id FROM pasta GROUP BY substr(content, 0, 200) HAVING count(id) > 1)"
