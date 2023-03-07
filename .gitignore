@@ -17,3 +17,5 @@ pom.xml.asc
 .log
 resources/public/assets
 .eastwood
+.clj-kondo
+.lsp
