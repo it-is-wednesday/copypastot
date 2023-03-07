@@ -62,7 +62,7 @@
 (defn index [request]
   (let [rows (coast/q '[:select *
                         :from pasta
-                        :where [:approved 1]
+                        :where [:approved true]
                         :order created-at desc])]
     [:div.flex-container
      [:a.btn.btn-danger.pastot-new-pasta-button
