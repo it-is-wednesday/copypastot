@@ -133,14 +133,16 @@
        {:type "submit" :value (:submit strings)}]])))
 
 (defn create [request]
-  (let [[_ errors] (-> (coast/validate (:params request) [[:required [:pasta/author :pasta/content]]])
-                       (select-keys [:pasta/author :pasta/content])
-                       (assoc :pasta/approved false)
-                       (coast/insert)
-                       (coast/rescue))]
-    (if (nil? errors)
-      (coast/redirect-to ::index)
-      (build (merge request errors)))))
+  ;; the try-catch here is due to the fact the `coast/q` is supposed to be used
+  ;; only with queries, not DML, but I couldn't find a better way :(
+  ;; `coast/execute!` usage is unclear and `coast/defq` doesn't exist
+  (try
+    (coast/q ["insert into pasta (author, \"content\", approved)
+               values (?, ?, false)"
+              (-> request :params :pasta/author)
+              (-> request :params :pasta/content)])
+    (catch Exception _ ()))
+  (coast/redirect-to ::index))
 
 (defn search [request]
   (let [plain-query (-> request :params :query)
@@ -155,7 +157,6 @@
       (mapv #(clojure.set/rename-keys % {:author :pasta/author
                                          :approved :pasta/approved
                                          :id :pasta/id
-                                         :updated_at :pasta/updated-at
                                          :created_at :pasta/created-at
                                          :content :pasta/content})
             rows))]))
