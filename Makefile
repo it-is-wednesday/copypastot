@@ -13,9 +13,6 @@ uberjar:
 lint:
 	clj -M:clj-kondo:eastwood
 
-repl:
-	clj -R:repl bin/repl.clj
-
 assets:
 	clj -M -m coast.assets
 
