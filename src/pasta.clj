@@ -7,16 +7,23 @@
 
 (def pasta-content-preview-len 60)
 
-(defn epoch-to-readable-date [epoch]
-  (.. (Instant/ofEpochSecond epoch)
+(defn instant->readable-string [instant]
+  (.. instant
       (atZone (ZoneId/systemDefault))
       (format (DateTimeFormatter/ofPattern "dd/MM/yy kk:mm"))))
+
+(defmulti make-readable-date class)
+(defmethod make-readable-date Integer [epoch]
+  (instant->readable-string (Instant/ofEpochSecond epoch)))
+(defmethod make-readable-date java.sql.Timestamp
+  [timestamp]
+  (instant->readable-string (.toInstant timestamp)))
 
 (defn make-pasta-heading [author epoch-date]
   (str (:submitted-by strings)
        author
        (:submitted-at strings)
-       (epoch-to-readable-date epoch-date)))
+       (make-readable-date epoch-date)))
 
 (defn search-bar
   ([] (search-bar ""))
@@ -48,7 +55,7 @@
        ;; author
        [:td.min (:pasta/author row)]
        ;; creation date
-       [:td.min (-> row :pasta/created-at epoch-to-readable-date)]
+       [:td.min (-> row :pasta/created-at make-readable-date)]
        ;; content peek
        [:td (if (< (-> row :pasta/content count) pasta-content-preview-len)
               (:pasta/content row)
@@ -71,11 +78,11 @@
 
      (search-bar)
 
-     (when (not (empty? rows))
+     (when (seq rows)
        (pastas-table rows))]))
 
 (defn view [request]
-  (let [id (-> request :params :pasta-id)
+  (let [id (-> request :params :pasta-id Integer/parseInt)
         pasta (coast/fetch :pasta id)]
     [:div
      (search-bar)
@@ -139,7 +146,7 @@
   (let [plain-query (-> request :params :query)
         like-query (str "%" plain-query "%")
         ;; sorry for using raw sql I just couldn't get the DSL to work with the ? thingy I swear
-        rows (coast/q ["SELECT * FROM pasta WHERE content LIKE ? AND approved = 1" like-query])]
+        rows (coast/q ["SELECT * FROM pasta WHERE content LIKE ? AND approved = true" like-query])]
     [:div.flex-container
      [:h3.pastot-primary-color (:search-results strings)]
      (search-bar plain-query)
