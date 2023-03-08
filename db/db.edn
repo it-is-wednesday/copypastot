@@ -1,9 +1,9 @@
-{:dev {:database "copypastot_dev.sqlite3"
-       :adapter "sqlite"
-       :debug true}
-
- :test {:database "copypastot_test.sqlite3"
-        :adapter "sqlite"}
+{:dev {:database "postgres"
+       :adapter "postgres"
+       :username "postgres"
+       :password "mysecretpassword"
+       :host "localhost"
+       :port 5432}
 
  :prod {:database #env :db-name
         :adapter "postgres"
