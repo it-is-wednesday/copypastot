@@ -141,7 +141,9 @@
                values (?, ?, false)"
               (-> request :params :pasta/author)
               (-> request :params :pasta/content)])
-    (catch Exception _ ()))
+    (catch Exception e
+      (when (= (:cause e) "Query does not return results")
+        (println e))))
   (coast/redirect-to ::index))
 
 (defn search [request]
