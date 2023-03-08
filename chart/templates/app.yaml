@@ -22,6 +22,8 @@ spec:
             - containerPort: 1337
               name: "{{ .Chart.Name  }}-port"
           env:
+            - name: COAST_ENV
+              value: "prod"
             - name: DB_NAME
               value: "{{ .Values.db.name }}"
             - name: DB_PASSWORD
