@@ -5,6 +5,13 @@
        :host "localhost"
        :port 5432}
 
+ :test {:database #env :db-name
+        :adapter "postgres"
+        :username #env :db-username
+        :password #env :db-password
+        :host #env :db-host
+        :port #env :db-port}
+
  :prod {:database #env :db-name
         :adapter "postgres"
         :username #env :db-username

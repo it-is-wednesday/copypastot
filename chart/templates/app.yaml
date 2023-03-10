@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
         - name: "{{ .Chart.Name  }}"
-          image: "t5kbv0soswgvrkgpxlezak/{{ .Chart.Name  }}:latest"
+          image: "{{ .Chart.Name  }}:latest"
+          imagePullPolicy: Never
           ports:
             - containerPort: 1337
               name: "{{ .Chart.Name  }}-port"
@@ -45,7 +46,7 @@ metadata:
 spec:
   type: NodePort
   ports:
-    - port: 8080
+    - port: 1337
       targetPort: "{{ .Chart.Name }}-port"
   selector:
     app: "{{ .Chart.Name }}"
