@@ -2,5 +2,5 @@ db:
   name: "postgres"
   password: "a7VqdY0I6e1RShfekPZV4D"
   username: "postgres"
-  host: "db-deployment.default.svc.cluster.local"
+  host: "db-service.default.svc.cluster.local"
   port: 5432
