@@ -40,11 +40,10 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: "{{ .Chart.Name }}-deployment"
+  name: "{{ .Chart.Name }}-service"
   labels:
     app: "{{ .Chart.Name }}"
 spec:
-  type: NodePort
   ports:
     - port: 1337
       targetPort: "{{ .Chart.Name }}-port"

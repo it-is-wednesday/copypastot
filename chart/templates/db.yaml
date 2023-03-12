@@ -29,9 +29,7 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: "db-deployment"
-  labels:
-    app: "db"
+  name: "db-service"
 spec:
   type: ClusterIP
   ports:
