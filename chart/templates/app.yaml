@@ -44,7 +44,7 @@ metadata:
   labels:
     app: "{{ .Chart.Name }}"
 spec:
-  type: ClusterIP
+  type: NodePort
   ports:
     - port: 1337
       targetPort: "{{ .Chart.Name }}-port"
