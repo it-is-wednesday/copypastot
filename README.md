@@ -23,7 +23,7 @@ just db-create db-migrate assets serve
 
 ## Ship
 Make sure you've 
-[defined your `.env`](https://coastonclojure.com/docs/configuration#user-content-production),
+[defined your `.env`](https://github.com/coast-framework/coast/blob/master/docs/configuration.md#user-content-production),
 then:
 
 ```bash
